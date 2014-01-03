@@ -27,6 +27,8 @@
 #include "tipc_connecter.hpp"
 #include "pgm_sender.hpp"
 #include "pgm_receiver.hpp"
+#include "udp_sender.hpp"
+#include "udp_receiver.hpp"
 #include "address.hpp"
 
 #include "ctx.hpp"
@@ -547,6 +549,42 @@ void zmq::session_base_t::start_connecting (bool wait_)
         return;
     }
 #endif
+
+    //  UDP support.
+    if (addr->protocol == "udp") {
+
+        //  At this point we'll create message pipes to the session straight
+        //  away. There's no point in delaying it as no concept of 'connect'
+        //  exists with UDP anyway.
+        if (options.type == ZMQ_PUB || options.type == ZMQ_XPUB) {
+
+            //  UDP sender.
+            udp_sender_t *udp_sender =  new (std::nothrow) udp_sender_t (
+                io_thread, options);
+            alloc_assert (udp_sender);
+
+            int rc = udp_sender->init (addr->address.c_str ());
+            zmq_assert (rc == 0);
+
+            send_attach (this, udp_sender);
+        }
+        else if (options.type == ZMQ_SUB || options.type == ZMQ_XSUB) {
+
+            //  UDP receiver.
+            udp_receiver_t *udp_receiver =  new (std::nothrow) udp_receiver_t (
+                io_thread, options);
+            alloc_assert (udp_receiver);
+
+            int rc = udp_receiver->init (addr->address.c_str ());
+            zmq_assert (rc == 0);
+
+            send_attach (this, udp_receiver);
+        }
+        else
+            zmq_assert (false);
+
+        return;
+    }
 
     zmq_assert (false);
 }

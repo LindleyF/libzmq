@@ -186,9 +186,10 @@ int zmq::socket_base_t::parse_uri (const char *uri_,
 
 int zmq::socket_base_t::check_protocol (const std::string &protocol_)
 {
-    //  First check out whether the protcol is something we are aware of.
+    //  First check out whether the protocol is something we are aware of.
     if (protocol_ != "inproc" && protocol_ != "ipc" && protocol_ != "tcp" &&
-          protocol_ != "pgm" && protocol_ != "epgm" && protocol_ != "tipc") {
+          protocol_ != "pgm" && protocol_ != "epgm" && protocol_ != "tipc" &&
+          protocol_ != "udp") {
         errno = EPROTONOSUPPORT;
         return -1;
     }
@@ -222,7 +223,7 @@ int zmq::socket_base_t::check_protocol (const std::string &protocol_)
     //  Check whether socket type and transport protocol match.
     //  Specifically, multicast protocols can't be combined with
     //  bi-directional messaging patterns (socket types).
-    if ((protocol_ == "pgm" || protocol_ == "epgm") &&
+    if ((protocol_ == "pgm" || protocol_ == "epgm" || protocol_ == "udp") &&
           options.type != ZMQ_PUB && options.type != ZMQ_SUB &&
           options.type != ZMQ_XPUB && options.type != ZMQ_XSUB) {
         errno = ENOCOMPATPROTO;
@@ -360,7 +361,7 @@ int zmq::socket_base_t::bind (const char *addr_)
         return rc;
     }
 
-    if (protocol == "pgm" || protocol == "epgm") {
+    if (protocol == "pgm" || protocol == "epgm" || protocol == "udp") {
         //  For convenience's sake, bind can be used interchageable with
         //  connect for PGM and EPGM transports.
         return connect (addr_);
@@ -611,7 +612,8 @@ int zmq::socket_base_t::connect (const char *addr_)
 
     //  PGM does not support subscription forwarding; ask for all data to be
     //  sent to this pipe.
-    bool subscribe_to_all = protocol == "pgm" || protocol == "epgm";
+    bool subscribe_to_all = protocol == "pgm" || protocol == "epgm"
+	|| protocol == "udp";
     pipe_t *newpipe = NULL;
 
     if (options.immediate != 1 || subscribe_to_all) {

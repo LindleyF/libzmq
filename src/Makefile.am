@@ -171,7 +171,11 @@ libzmq_la_SOURCES = \
     tipc_listener.cpp \
     tipc_listener.hpp \
     tipc_connecter.cpp \
-    tipc_connecter.hpp
+    tipc_connecter.hpp \
+    udp_sender.hpp \
+    udp_sender.cpp \
+    udp_receiver.hpp \
+    udp_receiver.cpp
 
 
 if ON_MINGW

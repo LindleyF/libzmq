@@ -8,6 +8,7 @@ noinst_PROGRAMS = test_system \
                   test_pair_tcp \
                   test_reqrep_inproc \
                   test_reqrep_tcp \
+                  test_pubsub_udp \
                   test_hwm \
                   test_reqrep_device \
                   test_sub_forward \
@@ -70,6 +71,7 @@ test_pair_inproc_SOURCES = test_pair_inproc.cpp testutil.hpp
 test_pair_tcp_SOURCES = test_pair_tcp.cpp testutil.hpp
 test_reqrep_inproc_SOURCES = test_reqrep_inproc.cpp testutil.hpp
 test_reqrep_tcp_SOURCES = test_reqrep_tcp.cpp testutil.hpp
+test_pubsub_udp_SOURCES = test_pubsub_udp.cpp testutil.hpp
 test_hwm_SOURCES = test_hwm.cpp
 test_reqrep_device_SOURCES = test_reqrep_device.cpp
 test_sub_forward_SOURCES = test_sub_forward.cpp

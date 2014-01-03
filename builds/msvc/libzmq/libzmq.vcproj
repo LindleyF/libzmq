@@ -613,6 +613,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\..\src\udp_sender.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\src\udp_receiver.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\..\src\v1_decoder.cpp"
 				>
 			</File>
@@ -932,6 +940,14 @@
 			</File>
 			<File
 				RelativePath="..\..\..\src\trie.hpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\src\udp_sender.hpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\src\udp_receiver.hpp"
 				>
 			</File>
 			<File

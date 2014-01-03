@@ -265,6 +265,8 @@
     <ClCompile Include="..\..\..\src\tcp_listener.cpp" />
     <ClCompile Include="..\..\..\src\thread.cpp" />
     <ClCompile Include="..\..\..\src\trie.cpp" />
+    <ClCompile Include="..\..\..\src\udp_sender.cpp" />
+    <ClCompile Include="..\..\..\src\udp_receiver.cpp" />
     <ClCompile Include="..\..\..\src\v1_decoder.cpp" />
     <ClCompile Include="..\..\..\src\v1_encoder.cpp" />
     <ClCompile Include="..\..\..\src\v2_decoder.cpp" />
@@ -344,6 +346,8 @@
     <ClInclude Include="..\..\..\src\tcp_listener.hpp" />
     <ClInclude Include="..\..\..\src\thread.hpp" />
     <ClInclude Include="..\..\..\src\trie.hpp" />
+    <ClInclude Include="..\..\..\src\udp_sender.hpp" />
+    <ClInclude Include="..\..\..\src\udp_receiver.hpp" />
     <ClInclude Include="..\..\..\src\v1_decoder.hpp" />
     <ClInclude Include="..\..\..\src\v1_encoder.hpp" />
     <ClInclude Include="..\..\..\src\v1_protocol.hpp" />

@@ -348,6 +348,8 @@ set(cxx-sources
         tcp_listener.cpp
         thread.cpp
         trie.cpp
+	udp_sender.cpp
+	udp_receiver.cpp
         v1_decoder.cpp
         v1_encoder.cpp
         v2_decoder.cpp
@@ -587,6 +589,7 @@ set(tests
         test_pair_tcp
         test_reqrep_inproc
         test_reqrep_tcp
+	test_pubsub_udp
         test_hwm
         test_reqrep_device
         test_sub_forward
