@@ -17,31 +17,40 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef __ZMQ_IP_HPP_INCLUDED__
-#define __ZMQ_IP_HPP_INCLUDED__
+#include "testutil.hpp"
 
-#include <string>
-#include "fd.hpp"
-
-namespace zmq
+int main (int argc, char *argv [])
 {
+    const char *bind_1 = "tcp://127.0.0.1:5555/resource/1";
+    const char *bind_2 = "tcp://127.0.0.1:5555/resource/2";
 
-    //  Same as socket(2), but allows for transparent tweaking the options.
-    fd_t open_socket (int domain_, int type_, int protocol_);
+    int rc;
 
-    //  Sets the socket into non-blocking mode.
-    void unblock_socket (fd_t s_);
+    void* ctx = zmq_init (1);
+    assert (ctx);
 
-    //  Enable IPv4-mapping of addresses in case it is disabled by default.
-    void enable_ipv4_mapping (fd_t s_);
+    void* p1 = zmq_socket (ctx, ZMQ_PUSH);
+    assert (p1);
 
-    //  Returns string representation of peer's address.
-    //  Socket sockfd_ must be connected. Returns true iff successful.
-    int get_peer_ip_address (fd_t sockfd_, std::string &ip_addr_);
+    rc = zmq_bind(p1, bind_1);
+    assert (rc == 0);
 
-    // Sets the IP Type-Of-Service for the underlying socket
-    void set_ip_type_of_service (fd_t s_, int iptos);
+    void* p2 = zmq_socket (ctx, ZMQ_PUSH);
+    assert (p2);
+    
+    // should be able to bind a second socket to the same ip/port
+    // but with different resource
+    rc = zmq_bind(p2, bind_2);
+    assert (rc == 0);
 
+    rc = zmq_close (p1);
+    assert (rc == 0);
+
+    rc = zmq_close (p2);
+    assert (rc == 0);
+
+    rc = zmq_term (ctx);
+    assert (rc == 0);
+
+    return 0;
 }
-
-#endif

@@ -19,6 +19,7 @@ noinst_PROGRAMS = test_system \
                   test_last_endpoint \
                   test_term_endpoint \
                   test_monitor \
+                  test_resource \
                   test_router_mandatory \
                   test_router_handover \
                   test_probe_router \
@@ -52,7 +53,8 @@ noinst_PROGRAMS += test_shutdown_stress \
                    test_reqrep_ipc \
                    test_timeo \
                    test_fork \
-                   test_filter_ipc
+                   test_filter_ipc \
+                   test_zap_ipc_creds
 endif
 
 if BUILD_TIPC
@@ -82,6 +84,7 @@ test_immediate_SOURCES = test_immediate.cpp
 test_last_endpoint_SOURCES = test_last_endpoint.cpp
 test_term_endpoint_SOURCES = test_term_endpoint.cpp
 test_monitor_SOURCES = test_monitor.cpp
+test_resource_SOURCES = test_resource.cpp
 test_router_mandatory_SOURCES = test_router_mandatory.cpp
 test_router_handover_SOURCES = test_router_handover.cpp
 test_probe_router_SOURCES = test_probe_router.cpp
@@ -115,6 +118,7 @@ test_reqrep_ipc_SOURCES = test_reqrep_ipc.cpp testutil.hpp
 test_timeo_SOURCES = test_timeo.cpp
 test_fork_SOURCES = test_fork.cpp
 test_filter_ipc_SOURCES = test_filter_ipc.cpp
+test_zap_ipc_creds_SOURCES = test_zap_ipc_creds.cpp
 endif
 if BUILD_TIPC
 test_connect_delay_tipc_SOURCES = test_connect_delay_tipc.cpp
@@ -129,7 +133,12 @@ endif
 
 #  Run the test cases
 TESTS = $(noinst_PROGRAMS)
+XFAIL_TESTS = test_resource
 
 if !ON_LINUX
-XFAIL_TESTS = test_abstract_ipc
+XFAIL_TESTS += test_abstract_ipc
+endif
+
+if !HAVE_IPC_PEERCRED
+XFAIL_TESTS += test_zap_ipc_creds
 endif
